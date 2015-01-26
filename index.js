@@ -45,7 +45,7 @@ Component.prototype.submit = function (e) {
   model.del('error');
   model.set('submitting', true);
   this.emit('submitting');
-  this.validate(function (err) {
+  this._validate(function (err) {
     if (err) return self.error(err);
     request
       .post(url)
@@ -62,11 +62,6 @@ Component.prototype.submit = function (e) {
         });
       });
   });
-};
-
-Component.prototype.validate = function (done) {
-  var model = this.model;
-  this._validate(done);
 };
 
 Component.prototype._submitted = function (done) {
