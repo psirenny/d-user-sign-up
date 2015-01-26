@@ -8,8 +8,9 @@ Component.prototype.create = function (model, dom) {
 };
 
 Component.prototype.error = function (err) {
-  this.emit('error', err);
-  this.set('error', err);
+  this.model.del('submitting');
+  this.model.set('error', err);
+  this.redirect();
 };
 
 Component.prototype.focus = function () {
@@ -45,7 +46,7 @@ Component.prototype.submit = function (e) {
   model.set('submitting', true);
   this.emit('submitting');
   this.validate(function (err) {
-    if (err) return;
+    if (err) return self.error(err);
     request
       .post(url)
       .withCredentials()
@@ -55,8 +56,8 @@ Component.prototype.submit = function (e) {
         if (error) return self.error(error);
         self._submitted(function (err) {
           model.del('submitting');
+          if (err) return self.error(err);
           self.emit('submitted');
-          if (err) self.error(err);
           self.redirect();
         });
       });
@@ -64,15 +65,8 @@ Component.prototype.submit = function (e) {
 };
 
 Component.prototype.validate = function (done) {
-  var self = this;
   var model = this.model;
-  model.set('validating', true);
-  this.emit('validate');
-  this._validate(function (err) {
-    model.del('validating');
-    self.emit('validated');
-    done(err);
-  });
+  this._validate(done);
 };
 
 Component.prototype._submitted = function (done) {
