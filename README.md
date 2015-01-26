@@ -1,7 +1,7 @@
 Derby User Sign Up
 ------------------
 
-Sign up component for Derby JS [https://github.com/psirenny/derby-user](User).
+Sign up component for [https://github.com/psirenny/derby-user](Derby User).
 
 Installation
 ------------
