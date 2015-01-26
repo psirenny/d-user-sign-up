@@ -1,9 +1,9 @@
-Derby User Sign In
+Derby User Sign Up
 ------------------
 
-Sign in component for Derby JS [https://github.com/psirenny/derby-user](User).
+Sign up component for Derby JS [https://github.com/psirenny/derby-user](User).
 
 Installation
 ------------
 
-    npm install d-user-sign-in --save
+    npm install d-user-sign-up --save

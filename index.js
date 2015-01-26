@@ -52,16 +52,21 @@ Component.prototype.submit = function (e) {
       .withCredentials()
       .send(data)
       .end(function (err, res) {
-        var error = err || res.error;
-        if (error) return self.error(error);
-        self._submitted(function (err) {
-          model.del('submitting');
+        self._response(err, res, function (err) {
           if (err) return self.error(err);
-          self.emit('submitted');
-          self.redirect();
+          self._submitted(function (err) {
+            model.del('submitting');
+            if (err) return self.error(err);
+            self.emit('submitted');
+            self.redirect();
+          });
         });
       });
   });
+};
+
+Component.prototype._response = function (err, res, done) {
+  done(err || res.body.error);
 };
 
 Component.prototype._submitted = function (done) {
