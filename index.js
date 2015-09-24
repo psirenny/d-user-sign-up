@@ -1,6 +1,8 @@
+'ues strict';
+
 var request = require('superagent');
 
-function Component () {}
+function Component() {}
 
 Component.prototype.create = function (model, dom) {
   if (model.get('autofocus')) this.focus();
@@ -27,6 +29,8 @@ Component.prototype.focus = function () {
 
 Component.prototype.reset = function () {
   if (this.form) this.form.reset();
+  this.model.del('error');
+  this.model.del('submitting');
 };
 
 Component.prototype.submit = function (e) {
@@ -49,8 +53,9 @@ Component.prototype.submit = function (e) {
     if (err) return self.error(err);
     request
       .post(url)
-      .withCredentials()
       .send(data)
+      .withCredentials()
+      .timeout(5000)
       .end(function (err, res) {
         self._response(err, res, function (err) {
           if (err) return self.error(err);
