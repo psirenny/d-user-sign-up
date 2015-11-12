@@ -29,6 +29,7 @@ Component.prototype.focus = function () {
 
 Component.prototype.reset = function () {
   if (this.form) this.form.reset();
+  this.model.del('data');
   this.model.del('error');
   this.model.del('submitting');
 };
